@@ -1,0 +1,39 @@
+#!/bin/bash
+# allow node to fetch extension
+export NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-bundle.crt
+
+# ensure directories exist
+mkdir -p ~/.vscode/data ~/.vscode/server-data ~/.vscode/extensions
+
+# get IP address (for URL modification only)
+IPADDR=$(ip a | grep -v ' lo' | grep -v 'podman' | grep -oE 'inet [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | sed 's/inet //' | head -n 1)
+
+# check if IP address was found
+if [ -z "$IPADDR" ]; then
+  echo "Error: Unable to obtain IP address."
+  exit 1
+fi
+
+# check if 'code' command exists
+if ! command -v code &> /dev/null; then
+    echo "Error: 'code' command not found. Please ensure Visual Studio Code is installed and the 'code' command is available."
+    exit 1
+fi
+
+# find an available port between 8000 and 8100 (optional in case of conflicts)
+PORT=8000
+while lsof -i :$PORT &> /dev/null; do
+    PORT=$((PORT+1))
+    if [ $PORT -gt 8100 ]; then
+        echo "Error: No available port found between 8000 and 8100."
+        exit 1
+    fi
+done
+
+# start server on 127.0.0.1
+code serve-web --port $PORT --host 127.0.0.1 \
+  --user-data-dir ~/.vscode/data \
+  --extensions-dir ~/.vscode/extensions \
+  --server-data-dir ~/.vscode/server-data \
+  --accept-server-license-terms "$@" | sed "s|http://127.0.0.1:$PORT|https://${IPADDR}|g"
+
