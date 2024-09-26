@@ -109,38 +109,38 @@ This ensures persistence for the .aquase directory across container runs.
 Log in to Nexus and manually download the microenforcer.20022.4.262 file.
 Copy the file to your Docker context folder (same directory as your Dockerfile).
 
-## Build the Docker Image
+### Build the Docker Image
 Once you have the Dockerfile and the microenforcer.20022.4.460 file, build the Docker image:
 
 ```
 docker build -t aqua-sidecar:latest .
 ```
 
-## Pushing the Image to AWS ECR
+### Pushing the Image to AWS ECR
 
 To push the aqua-sidecar:latest image to AWS Elastic Container Registry (ECR), follow these steps:
 
-### 1. Authenticate Docker with AWS ECR
+#### 1. Authenticate Docker with AWS ECR
 Run the following command to log in to ECR. Replace <aws_account_id> with your actual AWS account ID and <region> with your ECR region (e.g., us-east-1).
 
 ```
 aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <aws_account_id>.dkr.ecr.<region>.amazonaws.com
 ```
 
-### 2. Tag the Docker Image
+#### 2. Tag the Docker Image
 Tag the aqua-sidecar:latest image with your ECR repository:
 
 ```
 docker tag aqua-sidecar:latest <aws_account_id>.dkr.ecr.<region>.amazonaws.com/aqua-sidecar:latest
 ```
 
-### 3. Push the Docker Image to ECR
+#### 3. Push the Docker Image to ECR
 Push the tagged image to your ECR repository:
 
 ```
 docker push <aws_account_id>.dkr.ecr.<region>.amazonaws.com/aqua-sidecar:latest
 ```
 
-### 4. Verify the Image in ECR
+#### 4. Verify the Image in ECR
 You can log in to the AWS Management Console and verify that the image has been successfully pushed to your ECR repository.
 
