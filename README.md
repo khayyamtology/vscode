@@ -19,9 +19,6 @@ We are using the Alpine base image, which is fetched from AWS Elastic Container 
 FROM 328519145923.dkr.ecr.us-east-1.amazonaws.com/alpine:3.11
 ```
 
-## Downloading and Copying the microenforcer File
-You have two options to download the updated Aqua microenforcer file (microenforcer.20022.4.460).
-
 ### Manually Download from Nexus and Copy to Docker Context
 
 #### Log in to Nexus: 
@@ -41,7 +38,7 @@ RUN chmod +x /bin/microenforcer
 ```
 This makes the microenforcer executable inside the container.
 
-## Aqua microenforcer Initialization
+### Aqua microenforcer Initialization
 The Aqua microenforcer is initialized during the Docker image build process with the following command:
 
 ```
@@ -49,7 +46,7 @@ RUN /bin/microenforcer aqua-init
 ```
 This prepares the Aqua microenforcer for runtime protection.
 
-## Directory Setup and Permissions
+### Directory Setup and Permissions
 We create a directory /.aquasec/bin to store the microenforcer file and set the necessary permissions:
 
 ```
@@ -59,7 +56,7 @@ RUN mkdir -p /.aquasec/bin && \
 ```
 This ensures the microenforcer file is in the correct location with executable permissions.
 
-## User and Group Setup
+### User and Group Setup
 We add a new group and user (aqua) with specific IDs.
 
 ```
@@ -70,7 +67,7 @@ USER aqua
 ```
 This avoids errors during the build if the user or group already exists.
 
-## Environment Variables
+### Environment Variables
 The necessary environment variables for the Aqua-sidecar are set as follows:
 
 ```
@@ -80,7 +77,7 @@ ENV LD_PRELOAD=/.aquasec/bin/$PLATFORM/slklib.so \
 ```
 These variables enable specific runtime protection features.
 
-## Metadata
+### Metadata
 The Docker image includes metadata about the Aqua-sidecar using Docker LABEL commands:
 
 ```
@@ -94,7 +91,7 @@ LABEL name="Aqua microenforcer" \
     maintainer="admin@aqua.com"
 ```
 
-## Volume Declaration
+### Volume Declaration
 A volume is declared to store data used by the aqua-sidecar:
 
 ```
