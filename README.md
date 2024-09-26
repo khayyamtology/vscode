@@ -19,7 +19,7 @@ We are using the Alpine base image, which is fetched from AWS Elastic Container 
 FROM 328519145923.dkr.ecr.us-east-1.amazonaws.com/alpine:3.11
 ```
 
-### Manually Download from Nexus and Copy to Docker Context
+### Download from Nexus and Copy to Docker Context
 
 #### Log in to Nexus: 
 Open your web browser and log in to your Nexus repository using your Nexus credentials.
@@ -101,7 +101,7 @@ This ensures persistence for the .aquase directory across container runs.
 
 ## Steps to Build and Test the Docker Image
 
-### Manually Download from Nexus and Copy to Docker Context
+### Download from Nexus and Copy to Docker Context
 
 Log in to Nexus and manually download the microenforcer.20022.4.262 file.
 Copy the file to your Docker context folder (same directory as your Dockerfile).
