@@ -109,7 +109,7 @@ This ensures persistence for the .aquase directory across container runs.
 Log in to Nexus and manually download the microenforcer.20022.4.262 file.
 Copy the file to your Docker context folder (same directory as your Dockerfile).
 
-## 2. Build the Docker Image
+## Build the Docker Image
 Once you have the Dockerfile and the microenforcer.20022.4.460 file, build the Docker image:
 
 ```
